@@ -1,1 +1,15 @@
+{
+  "orchestration": {
+    "name": "Generic Multi-Agent Workflow",
+    "description": "Planner → Researcher → Coder → Reviewer → Orchestrator",
+    "workflow": {
+      "steps": [
+        "Planner → Researcher",
+        "Researcher → Coder",
+        "Coder → Reviewer",
+        "Reviewer → Orchestrator"
+      ]
+    }
+  }
+}
 
