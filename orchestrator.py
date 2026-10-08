@@ -1,52 +1,51 @@
 import json
+import os
 
-# Load workflow definition
-with open("workflows/generic-orchestration.json", "r") as f:
-    workflow = json.load(f)
+PROMPTS_DIR = "prompts"
+WORKFLOW_FILE = "workflows/generic-orchestration.json"
 
-# Simulated agent functions
-def planner(user_request):
-    return [
-        "Set up project scaffold",
-        "Implement CRUD operations",
-        "Add authentication",
-        "Document API with Swagger"
-    ]
+def load_prompt(agent_name):
+    """Load prompt text from the /prompts folder."""
+    filename = os.path.join(PROMPTS_DIR, f"{agent_name.lower()}.md")
+    if os.path.exists(filename):
+        with open(filename, "r") as f:
+            return f.read().strip()
+    return f"No prompt found for {agent_name}"
 
-def researcher(tasks):
-    return {
-        "Spring Boot": "Robust framework, easy integration",
-        "JWT": "Secure authentication, widely used",
-        "Swagger": "Interactive API docs, developer-friendly"
-    }
+# Simulated agent functions (replace with Copilot/LLM calls later)
+def planner(user_request, prompt):
+    print(f"\n[Planner Prompt]\n{prompt}")
+    return ["Set up project scaffold", "Implement CRUD operations", "Add authentication"]
 
-def coder(tasks, recommendations):
-    return {
-        "Task.java": "Entity with id, title, description, completed",
-        "TaskController.java": "REST endpoints for CRUD",
-        "SecurityConfig.java": "JWT filter applied"
-    }
+def researcher(tasks, prompt):
+    print(f"\n[Researcher Prompt]\n{prompt}")
+    return {"Spring Boot": "Robust framework", "JWT": "Secure authentication"}
 
-def reviewer(code_output):
-    return {
-        "Entity": "✅ Correct fields",
-        "Controller": "⚠️ Missing error handling",
-        "Security": "✅ JWT implemented"
-    }
+def coder(tasks, recommendations, prompt):
+    print(f"\n[Coder Prompt]\n{prompt}")
+    return {"Task.java": "Entity class", "TaskController.java": "REST endpoints"}
 
-def orchestrator(outputs):
+def reviewer(code_output, prompt):
+    print(f"\n[Reviewer Prompt]\n{prompt}")
+    return {"Entity": "✅ Correct", "Controller": "⚠️ Missing error handling"}
+
+def orchestrator(outputs, prompt):
+    print(f"\n[Orchestrator Prompt]\n{prompt}")
     print("\n=== Final Integrated Solution ===")
     for agent, output in outputs.items():
-        print(f"\n[{agent} Output]")
-        print(output)
+        print(f"\n[{agent} Output]\n{output}")
 
-# Simulate workflow
 if __name__ == "__main__":
+    # Load workflow
+    with open(WORKFLOW_FILE, "r") as f:
+        workflow = json.load(f)
+
     user_request = "Build a Task Manager API"
     outputs = {}
 
-    outputs["Planner"] = planner(user_request)
-    outputs["Researcher"] = researcher(outputs["Planner"])
-    outputs["Coder"] = coder(outputs["Planner"], outputs["Researcher"])
-    outputs["Reviewer"] = reviewer(outputs["Coder"])
-    orchestrator(outputs)
+    # Run workflow
+    outputs["Planner"] = planner(user_request, load_prompt("planner"))
+    outputs["Researcher"] = researcher(outputs["Planner"], load_prompt("researcher"))
+    outputs["Coder"] = coder(outputs["Planner"], outputs["Researcher"], load_prompt("coder"))
+    outputs["Reviewer"] = reviewer(outputs["Coder"], load_prompt("reviewer"))
+    orchestrator(outputs, load_prompt("orchestrator"))
