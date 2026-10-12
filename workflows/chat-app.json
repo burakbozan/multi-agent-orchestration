@@ -1,0 +1,19 @@
+{
+  "orchestration": {
+    "name": "Realtime Chat App Workflow",
+    "description": "Planner → Researcher → Coder → Reviewer → Orchestrator for Chat App",
+    "workflow": {
+      "steps": [
+        "Planner → Researcher",
+        "Researcher → Coder",
+        "Coder → Reviewer",
+        "Reviewer → Orchestrator"
+      ]
+    },
+    "context": {
+      "project": "Realtime Chat App",
+      "stack": "Node.js, Express, React/Next.js, Socket.IO, MongoDB, Redis, Docker",
+      "goal": "Build a scalable realtime chat system with authentication and notifications"
+    }
+  }
+}

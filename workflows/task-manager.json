@@ -1,0 +1,19 @@
+{
+  "orchestration": {
+    "name": "Task Manager API Workflow",
+    "description": "Planner → Researcher → Coder → Reviewer → Orchestrator for Task Manager API",
+    "workflow": {
+      "steps": [
+        "Planner → Researcher",
+        "Researcher → Coder",
+        "Coder → Reviewer",
+        "Reviewer → Orchestrator"
+      ]
+    },
+    "context": {
+      "project": "Task Manager API",
+      "stack": "Java 17, Spring Boot, Maven, JWT, Swagger, Docker, Actuator",
+      "goal": "Build a secure, documented, containerized CRUD API with monitoring"
+    }
+  }
+}

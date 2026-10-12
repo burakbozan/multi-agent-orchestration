@@ -1,0 +1,19 @@
+{
+  "orchestration": {
+    "name": "AI-Powered Note App Workflow",
+    "description": "Planner → Researcher → Coder → Reviewer → Orchestrator for Note App",
+    "workflow": {
+      "steps": [
+        "Planner → Researcher",
+        "Researcher → Coder",
+        "Coder → Reviewer",
+        "Reviewer → Orchestrator"
+      ]
+    },
+    "context": {
+      "project": "AI-Powered Note App",
+      "stack": "React, TailwindCSS, Node.js/Express, PostgreSQL, OpenAI API, Docker",
+      "goal": "Build a productivity app with CRUD notes, AI summarization, semantic search, and collaboration"
+    }
+  }
+}
