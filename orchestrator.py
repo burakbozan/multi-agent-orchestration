@@ -36,7 +36,7 @@ def coder(tasks, recommendations, prompt):
 
 def reviewer(code_output, prompt):
     print(f"\n[Reviewer Prompt]\n{prompt}")
-    return {"Entity": "✅ Correct", "Controller": "⚠️ Missing error handling"}
+    return {"Entity": "PASS: Correct", "Controller": "WARNING: Missing error handling"}
 
 def orchestrator(outputs, prompt):
     print(f"\n[Orchestrator Prompt]\n{prompt}")
@@ -57,9 +57,9 @@ if __name__ == "__main__":
 
     # Run workflow steps dynamically
     for step in workflow["orchestration"]["workflow"]["steps"]:
-        agents = step.split("→")
-        current_agent = agents[0].strip()
-        next_agent = agents[-1].strip()
+        agents = step.split()
+        current_agent = agents[0]
+        next_agent = agents[-1]
 
         if current_agent == "Planner":
             outputs["Planner"] = planner(user_request, load_prompt("planner"))
@@ -69,5 +69,5 @@ if __name__ == "__main__":
             outputs["Coder"] = coder(outputs["Planner"], outputs["Researcher"], load_prompt("coder"))
         elif current_agent == "Reviewer":
             outputs["Reviewer"] = reviewer(outputs["Coder"], load_prompt("reviewer"))
-        elif current_agent == "Orchestrator":
+        if next_agent == "Orchestrator":
             orchestrator(outputs, load_prompt("orchestrator"))
